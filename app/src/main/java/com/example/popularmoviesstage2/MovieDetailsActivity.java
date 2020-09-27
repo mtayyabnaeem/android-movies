@@ -82,26 +82,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         String movieId = intent.getStringExtra(EXTRA_ID);
 
         Log.i("Pakistan", "Movie ID: " + movieId);
+
         callTrailerLink(movieId);
-
-        trailerButton = findViewById(R.id.trailer_button);
-
-        trailerButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                //String overview = adapter.getData().get(position).getOverview();
-
-                String trailerKey = null ;
-                String url = "http://www.youtube.com/watch?v=" + trailerKey ;
-
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
-
 
     }
 
@@ -120,7 +102,23 @@ public class MovieDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<TrailersResponse> call, Response<TrailersResponse> response) {
                 Log.i("Pakistan", "" + response.body().trailersDataList.get(0).getKey());
+                trailerButton = findViewById(R.id.trailer_button);
 
+                trailerButton.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        //String overview = adapter.getData().get(position).getOverview();
+
+
+                        String url = "http://www.youtube.com/watch?v=" + response.body().trailersDataList.get(0).getKey();
+
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                });
             }
 
             @Override
